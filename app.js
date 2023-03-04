@@ -39,44 +39,53 @@
 
 // -- FS --
 //доступ до всієї файлової системи
-// const fs = require('fs');
-// const path = require('path');
-
+const fs = require('fs');
+const path = require('path');
+//записати файл
 // fs.writeFile(path.join('test', 'text2.txt'), 'Hello from Okten !!!', (err)=>{
 //   if (err) throw new Error(err.message)
 // })
-
+// fs.writeFile(path.join('test', 'text2.txt'), 'some info', (err, data) => {
+//     if (err) {
+//         throw new Error(err.message)
+//     }
+// })
+//прочитати файл
 // fs.readFile(path.join('test', 'text.txt'), (err, data)=>{
 //   if (err) throw new Error(err.message);
 //   console.log(data.toString());
 // })
-
+//дописати інформацію в файл
 // fs.appendFile(path.join('test', 'text2.txt'), '\nHello from Okten again!', (err)=>{
 //   if (err) throw new Error();
 // })
-
+//видаляє інф в файлі
 // fs.truncate(path.join('test', 'text2.txt'), (err)=>{
 //   if (err) throw new Error();
 // })
-
+//видаляє сам файл
 // fs.unlink(path.join('test', 'text2.txt'), (err)=>{
 //   if (err) throw new Error();
 // })
-
+//повертає різну інформацію про даний файл (чи є папкою чи файлом дані)
 // fs.stat(path.join('test'), (err, stats)=>{
 //   if (err) throw new Error();
 //   console.log(stats.isDirectory());
 //   console.log(stats.isFile());
 // })
 //
+//прочитати директорію. Отримуємо масив елементів що є в директорії
 // fs.readdir(path.join('test'), {withFileTypes: true},(err, data)=>{
 //   if (err) throw new Error();
 //   data.forEach(file=>{
 //     console.log(file.isFile());
 //   })
 // })
+//створити папку
 // fs.mkdir(path.join('test', 'test2'), (err)=>{
 //   if (err) throw new Error();
 // })
+
+
 
 
