@@ -1,0 +1,1 @@
+New INFO FROM FILE N newFile1.txt
