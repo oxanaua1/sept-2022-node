@@ -58,7 +58,7 @@
 // }
 
 // readStream
-    //якщо ерор виконай ф-ю handleError
+//якщо ерор виконай ф-ю handleError
 //   .on('error', handleError)
 //   .pipe(writeStream)
 //   .on('error', handleError);
@@ -83,6 +83,114 @@
 // is being sent from and to the sources indicated.
 //DNS (Domain Name System)- єрархічна розподілена система перетворення імені хоста (комп'ютера або іншого мережевого пристрою) в IP-адресу
 
-//npm -i express - в терміналі, встановлюємо express
+//npm i express - в терміналі, встановлюємо express
 //npm init -y - створити package.json
 
+const express = require('express');
+//виклик express як ф-ї повертає нам змінну app
+const app = express();
+
+//щоб express міг сприймати те що ми передаємо в post req.body
+app.use(express.json());
+app.use(express.urlencoded({extended: true}))
+
+
+const PORT = 5100;
+app.listen(PORT, () => {
+    console.log(`Server has started on PORT ${PORT} 🚀🚀🚀`);
+});
+//методи  HTTP запитів:
+// app.get()
+// app.post()
+// app.put()
+// app.patch()
+// app.delete()
+
+const users = [
+    {
+        name: 'Oleh',
+        age: 19,
+        gender: 'male'
+    },
+    {
+        name: 'Anton',
+        age: 22,
+        gender: 'female'
+    },
+    {
+        name: 'Anya',
+        age: 25,
+        gender: 'female'
+    },
+    {
+        name: 'Ielizavetta',
+        age: 35,
+        gender: 'female'
+    },
+    {
+        name: 'Cocos',
+        age: 70,
+        gender: 'mixed'
+    }
+]
+app.get('/users', (req, res) => {
+    res.status('200').json(users);
+})
+//:userId -params
+app.get('/users/:userId', (req, res) => {
+    //оскільки params отримуємо від клієнта
+
+    const {userId} = req.params;
+//кастуємо до числа, бо в роутері є стрічка, щоб вибрати елемент масиву по індексу, який є числом
+//array [array index]
+
+    const user = users[+userId];
+
+    res.json(user);
+})
+
+
+//запит на 'ендпоінт' - /welcome
+//req -інф від користувача, res-інф що віддамо користувачу
+app.get('/welcome', (req, res) => {
+    console.log('welcome');
+
+    //щоб послати щось на сервер
+    res.send('welcome')
+
+    //щоб не загружалася консоль коли виводжу лише в консоль
+    res.end()
+})
+
+app.post('/users', (req, res) => {
+    const body = req.body;
+    users.push(body);
+    res.status('201').json({message: 'User created'})
+
+})
+
+app.put('/users/:userId',
+    (req, res) => {
+        const {userId} = req.params;
+        const userUpdated = req.body
+        users[+userId] = userUpdated;
+        res.status('200').json({
+            message: 'User created',
+            data: users[+userId]
+        })
+
+    })
+
+app.delete('/users/:userId', (req, res) => {
+    const {userId} = req.params;
+
+    users.splice(+userId, 1);
+
+    res.status(200).json({
+        message: 'User deleted',
+    })
+})
+
+
+//HTTP response status codes
+//https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
