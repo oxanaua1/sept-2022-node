@@ -1,0 +1,44 @@
+[
+  {
+    "id": 2,
+    "name": "Alina",
+    "age": 25,
+    "gender": "female"
+  },
+  {
+    "id": 3,
+    "name": "Anna",
+    "age": 25,
+    "gender": "female"
+  },
+  {
+    "id": 4,
+    "name": "Anna",
+    "age": 25,
+    "gender": "female"
+  },
+  {
+    "id": 5,
+    "name": "Anna",
+    "age": 25,
+    "gender": "male"
+  },
+  {
+    "id": 6,
+    "name": "Anna",
+    "age": 25,
+    "gender": "male"
+  },
+  {
+    "id": 7,
+    "name": "Anna",
+    "age": 25,
+    "gender": "male"
+  },
+  {
+    "id": 8,
+    "name": "Anna",
+    "age": 25,
+    "gender": "male"
+  }
+]
