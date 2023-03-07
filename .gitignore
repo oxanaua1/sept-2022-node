@@ -1,4 +1,12 @@
+# Editor directories and files
 .idea
-node_modules
 package-lock.json
 sept-2022-node.iml
+
+# Node artifact files
+node_modules
+dist
+
+# Environment variables
+.env
+.env.*
