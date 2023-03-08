@@ -14,7 +14,7 @@ app.use("/users", userRouter);
 //--Error Handler
 
 app.use((err: IError, req: Request, res: Response, next: NextFunction) => {
-  const status = err.status;
+  const status = err.status || 500;
 
   return res.status(status).json({
     message: err.message,

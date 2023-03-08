@@ -11,11 +11,27 @@ router.get("/", userController.getAll);
 
 router.post("/", userMiddleware.isUserValidCreate, userController.create);
 
-router.get("/:userId", userMiddleware.getByIdAndThrow, userController.getById);
+router.get(
+  "/:userId",
+  userMiddleware.isUserIdValid,
+  userMiddleware.getByIdOrThrow,
+  userController.getById
+);
 
-router.put("/:userId", userController.update);
+router.put(
+  "/:userId",
+  userMiddleware.isUserIdValid,
+  userMiddleware.getByIdOrThrow,
+  userMiddleware.isUserValidUpdate,
+  userController.update
+);
 
-router.delete("/:userId", userController.delete);
+router.delete(
+  "/:userId",
+  userMiddleware.isUserIdValid,
+  userMiddleware.getByIdOrThrow,
+  userController.delete
+);
 
 router.get("/welcome", (req: Request, res: Response) => {
   res.send("WELCOME");
