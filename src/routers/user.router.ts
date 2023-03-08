@@ -9,9 +9,9 @@ export const userRouter = router;
 
 router.get("/", userController.getAll);
 
-router.get("/:userId", userMiddleware.getByIdAndThrow, userController.getById);
+router.post("/", userMiddleware.isUserValidCreate, userController.create);
 
-router.post("/", userController.create);
+router.get("/:userId", userMiddleware.getByIdAndThrow, userController.getById);
 
 router.put("/:userId", userController.update);
 

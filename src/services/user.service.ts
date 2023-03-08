@@ -1,5 +1,5 @@
 import { ApiError } from "../errors/api.error";
-import { IUser } from "../models/types/user.types";
+import { IUser } from "../types/user.types";
 import { User } from "../models/User.model";
 
 class UserService {

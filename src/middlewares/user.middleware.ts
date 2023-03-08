@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 
 import { ApiError } from "../errors/api.error";
 import { User } from "../models/User.model";
+import { UserValidator } from "../validators";
 
 class UserMiddleware {
   public async getByIdAndThrow(
@@ -18,6 +19,25 @@ class UserMiddleware {
         throw new ApiError("User not found", 404);
       }
 
+      next();
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  public async isUserValidCreate(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    try {
+      const { error, value } = UserValidator.createUser.validate(req.body);
+
+      if (error) {
+        throw new ApiError(error.message, 400);
+      }
+
+      req.body = value;
       next();
     } catch (e) {
       next(e);
