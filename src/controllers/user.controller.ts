@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 
-import { ICommonResponse, IMessage } from "../models/types/commom.types";
-import { IUser } from "../models/types/user.types";
 import { User } from "../models/User.model";
 import { userService } from "../services/user.service";
+import { ICommonResponse, IMessage } from "../types/commom.types";
+import { IUser } from "../types/user.types";
 
 class UserController {
   public async getAll(req: Request, res: Response): Promise<Response<IUser[]>> {
@@ -50,14 +50,14 @@ class UserController {
   ): Promise<Response<ICommonResponse<IUser>>> {
     try {
       const { userId } = req.params;
-      const user = req.body;
 
-      const updatedUser = await User.updateOne({ _id: userId }, { ...user });
+      const updatedUser = await User.findByIdAndUpdate(
+        userId,
+        { ...req.body },
+        { new: true }
+      );
 
-      return res.status(200).json({
-        message: "User updated",
-        data: updatedUser,
-      });
+      return res.status(201).json(updatedUser);
     } catch (e) {
       next(e);
     }

@@ -2,8 +2,8 @@ import express, { NextFunction, Request, Response } from "express";
 import mongoose from "mongoose";
 
 import { configs } from "./configs/config";
-import { IError } from "./models/types/commom.types";
 import { userRouter } from "./routers/user.router";
+import { IError } from "./types/commom.types";
 
 const app = express();
 app.use(express.json());
