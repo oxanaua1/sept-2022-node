@@ -2,6 +2,7 @@ import express, { NextFunction, Request, Response } from "express";
 import mongoose from "mongoose";
 
 import { configs } from "./configs/config";
+import { authRouter } from "./routers/auth.router";
 import { userRouter } from "./routers/user.router";
 import { IError } from "./types/commom.types";
 
@@ -10,6 +11,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/users", userRouter);
+app.use("/auth", authRouter);
 
 //--Error Handler
 

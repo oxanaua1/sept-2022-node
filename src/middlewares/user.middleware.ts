@@ -1,8 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 import { isObjectIdOrHexString } from "mongoose";
 
-import { ApiError } from "../errors/api.error";
-import { User } from "../models/User.model";
+import { ApiError } from "../errors";
+import { User } from "../models";
+import { IRequest } from "../types";
 import { UserValidator } from "../validators";
 
 class UserMiddleware {
@@ -26,8 +27,51 @@ class UserMiddleware {
       next(e);
     }
   }
-
-  public async isUserValidCreate(
+  //get user from DB and in case of error throw error. this middleware takes fields and return function
+  public getDynamicallyAndThrow(
+    fieldName: string,
+    from = "body",
+    dbField = fieldName
+  ) {
+    return async (req: IRequest, res: Response, next: NextFunction) => {
+      try {
+        const fieldValue = req[from][fieldName];
+        const user = await User.findOne({ [dbField]: [fieldValue] });
+        //іншими словами const user =  await User.findOne({ email: req.body.email});
+        if (user) {
+          throw new ApiError(
+            `User with ${fieldName} - ${fieldValue}, already exist`,
+            409
+          );
+        }
+        next();
+      } catch (e) {
+        next(e);
+      }
+    };
+  }
+  public getDynamicallyOrThrow(
+    fieldName: string,
+    from = "body",
+    dbField = fieldName
+  ) {
+    return async (req: IRequest, res: Response, next: NextFunction) => {
+      try {
+        const fieldValue = req[from][fieldName];
+        const user = await User.findOne({ [dbField]: [fieldValue] });
+        //іншими словами const user =  await User.findOne({ email: req.body.email});
+        if (!user) {
+          throw new ApiError(`User is not found`, 422);
+        }
+        req.res.locals = user;
+        next();
+      } catch (e) {
+        next(e);
+      }
+    };
+  }
+  //Validators
+  public async isValidCreate(
     req: Request,
     res: Response,
     next: NextFunction
@@ -45,7 +89,7 @@ class UserMiddleware {
       next(e);
     }
   }
-  public async isUserIdValid(
+  public async isIdValid(
     req: Request,
     res: Response,
     next: NextFunction
@@ -60,13 +104,31 @@ class UserMiddleware {
       next(e);
     }
   }
-  public async isUserValidUpdate(
+  public async isValidUpdate(
     req: Request,
     res: Response,
     next: NextFunction
   ): Promise<void> {
     try {
       const { error, value } = UserValidator.updateUser.validate(req.body);
+
+      if (error) {
+        throw new ApiError(error.message, 400);
+      }
+
+      req.body = value;
+      next();
+    } catch (e) {
+      next(e);
+    }
+  }
+  public async isValidLogin(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    try {
+      const { error, value } = UserValidator.loginUser.validate(req.body);
 
       if (error) {
         throw new ApiError(error.message, 400);
