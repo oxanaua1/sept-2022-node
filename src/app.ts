@@ -1,10 +1,9 @@
 import express, { NextFunction, Request, Response } from "express";
 import mongoose from "mongoose";
 
-import { configs } from "./configs/config";
-import { authRouter } from "./routers/auth.router";
-import { userRouter } from "./routers/user.router";
-import { IError } from "./types/commom.types";
+import { configs } from "./configs";
+import { ApiError } from "./errors";
+import { authRouter, userRouter } from "./routers";
 
 const app = express();
 app.use(express.json());
@@ -15,7 +14,7 @@ app.use("/auth", authRouter);
 
 //--Error Handler
 
-app.use((err: IError, req: Request, res: Response, next: NextFunction) => {
+app.use((err: ApiError, req: Request, res: Response, next: NextFunction) => {
   const status = err.status || 500;
 
   return res.status(status).json({

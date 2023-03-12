@@ -1,6 +1,6 @@
 import { model, Schema } from "mongoose";
 
-import { EGenders } from "../types";
+import { EGenders } from "../enums";
 
 //Schema - описуємо поля які будуть в схемі БД
 //model - модель дає зручні методи для використання, називається з великої букви
