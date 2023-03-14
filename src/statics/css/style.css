@@ -1,0 +1,30 @@
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: cornflowerblue;
+    height: 100px;
+}
+
+.header h2 {
+    color: deeppink;
+
+}
+
+.main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: cornsilk;
+    color: chocolate;
+    height: 100px;
+}
+
+.footer {
+    background-color: darkgray;
+    height: 100px;
+}
+
+.footer a {
+    color: red;
+}

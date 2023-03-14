@@ -1,6 +1,7 @@
 import { ApiError } from "../errors";
 import { Token, User } from "../models";
 import { ICredentials, ITokenPair, ITokenPayload, IUser } from "../types";
+import { emailService } from "./email.service";
 import { passwordService } from "./password.service";
 import { tokenService } from "./token.service";
 
@@ -13,6 +14,9 @@ class AuthService {
         ...body,
         password: hashedPassword,
       });
+
+      //await emailService.sendMail(body.email)
+      await emailService.sendMail("leyacat11@gmail.com");
     } catch (e) {
       throw new ApiError(e.message, e.status);
     }
@@ -29,6 +33,7 @@ class AuthService {
       if (!isMatched) {
         throw new ApiError("Invalid email or password", 404);
       }
+
       const tokenPair = tokenService.generateTokenPair({
         _id: user._id,
         name: user.name,
