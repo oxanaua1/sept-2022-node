@@ -4,6 +4,8 @@ import EmailTemplates from "email-templates";
 import nodemailer, { Transporter } from "nodemailer";
 
 import { configs } from "../configs";
+import { allTemplates } from "../constants";
+import { EEmailActions } from "../enums/email-action.enum";
 
 class EmailService {
   private transporter: Transporter;
@@ -35,12 +37,13 @@ class EmailService {
     });
   }
 
-  public async sendMail(email: string) {
-    const html = await this.templateParser.render("register");
+  public async sendMail(email: string, emailAction: EEmailActions) {
+    const templateInfo = allTemplates[emailAction];
+    const html = await this.templateParser.render(templateInfo.templateName);
     return this.transporter.sendMail({
       from: "No reply",
       to: email, //вказуємо імейл який ми прийняли в ф-ї
-      subject: "Test Email",
+      subject: templateInfo.subject,
       html,
     });
   }
