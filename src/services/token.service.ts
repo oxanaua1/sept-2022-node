@@ -38,6 +38,7 @@ class TokenService {
       throw new ApiError("Token is not valid", 400);
     }
   }
+  // public generateActionToken() {}
 }
 
 export const tokenService = new TokenService();

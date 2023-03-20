@@ -28,7 +28,11 @@ router.post(
   authMiddleware.checkAccessToken,
   authController.changePassword
 );
-
+router.post(
+  "/password/forgot ",
+  userMiddleware.getDynamicallyOrThrow("email"),
+  authController.forgotPassword
+);
 router.post(
   "/refresh",
   authMiddleware.checkRefreshToken,
