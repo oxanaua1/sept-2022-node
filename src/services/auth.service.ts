@@ -97,22 +97,30 @@ class AuthService {
       throw new ApiError(e.message, e.status);
     }
   }
-
+  //генеруємо токен
   public async forgotPassword(user: IUser): Promise<void> {
     try {
       const actionToken = tokenService.generateActionToken(
         { _id: user._id },
-        EActionTokenType.forgot
+        EActionTokenType.forgot //передаємо який саме тип токену будемо генерувати
       );
       await Action.create({
         actionToken,
         tokenType: EActionTokenType.forgot,
         _user_id: user._id,
       });
-
       await emailService.sendMail(user.email, EEmailActions.FORGOT_PASSWORD, {
         token: actionToken,
       });
+    } catch (e) {
+      throw new ApiError(e.message, e.status);
+    }
+  }
+  public async setForgotPassword(password: string, id: string): Promise<void> {
+    try {
+      const hashedPassword = await passwordService.hash(password);
+
+      await User.updateOne({ _id: id }, { password: hashedPassword });
     } catch (e) {
       throw new ApiError(e.message, e.status);
     }
