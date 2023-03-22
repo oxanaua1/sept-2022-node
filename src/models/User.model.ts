@@ -1,6 +1,6 @@
 import { model, Schema } from "mongoose";
 
-import { EGenders } from "../enums";
+import { EGenders, EUserStatus } from "../enums";
 
 //Schema - описуємо поля які будуть в схемі БД
 //model - модель дає зручні методи для використання, називається з великої букви
@@ -25,9 +25,10 @@ const userSchema = new Schema(
       type: "String",
       enum: EGenders,
     },
-    isActivated: {
-      type: Boolean,
-      default: false,
+    status: {
+      type: "String",
+      enum: EUserStatus,
+      default: EUserStatus.inactive,
     },
   },
   {
