@@ -1,6 +1,7 @@
 import { model, Schema } from "mongoose";
 
 import { EGenders, EUserStatus } from "../enums";
+import { IUser, IUserModel } from "../types";
 
 //Schema - описуємо поля які будуть в схемі БД
 //model - модель дає зручні методи для використання, називається з великої букви
@@ -25,6 +26,10 @@ const userSchema = new Schema(
       type: "String",
       enum: EGenders,
     },
+    age: {
+      type: "Number",
+      required: false,
+    },
     status: {
       type: "String",
       enum: EUserStatus,
@@ -37,4 +42,22 @@ const userSchema = new Schema(
   }
 );
 
-export const User = model("user", userSchema);
+userSchema.virtual("nameWithSurname").get(function () {
+  return `${this.name} Piatov`;
+});
+
+userSchema.methods = {
+  // method - for user -one для конкретного юзера створюємо метод, напр дописуємо прізвище йому
+  nameWithAge() {
+    return `${this.name} is ${this.age} years old.`;
+  },
+};
+
+userSchema.statics = {
+  // static - for User-all до моделі створюємо свій метод
+  async findByName(name: string): Promise<IUser[]> {
+    return this.find({ name });
+  },
+};
+
+export const User = model<IUser, IUserModel>("user", userSchema);
