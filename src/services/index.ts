@@ -4,3 +4,4 @@ export * from "./password.service";
 export * from "./token.service";
 export * from "./email.service";
 export * from "./sms.service";
+export * from "./car.service";
